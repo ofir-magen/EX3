@@ -37,16 +37,16 @@ class DiGraph(GraphInterface):
     def remove_node(self, node_id):
         if self.V.__contains__(node_id):
             for i in (self.outE.get(node_id).keys()):
-                self.outE[node_id].pop(i)
                 self.inE[i].pop(node_id)
                 self.mc -= 1
                 self.esize -= 1
             for j in (self.inE.get(node_id).keys()):
                 self.outE[j].pop(node_id)
-                self.inE[node_id].pop(j)
                 self.mc -= 1
                 self.esize -= 1
             self.V.pop(node_id)
+            self.inE.pop(node_id)
+            self.outE.pop(node_id)
             return True
         return False
 
@@ -82,6 +82,5 @@ if __name__ == '__main__':
     d.add_edge(0, 4, 6.5)
     d.add_edge(0, 5, 7.5)
     d.add_edge(3, 4, 1.7)
-    print(d.outE)
-    print(d.esize)
+
 #   print(d.outE.get(0))
