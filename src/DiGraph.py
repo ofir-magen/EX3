@@ -41,6 +41,11 @@ class DiGraph(GraphInterface):
                 self.inE[i].pop(node_id)
                 self.mc -= 1
                 self.esize -= 1
+            for j in (self.inE.get(node_id).keys()):
+                self.outE[j].pop(node_id)
+                self.inE[node_id].pop(j)
+                self.mc -= 1
+                self.esize -= 1
             self.V.pop(node_id)
             return True
         return False
