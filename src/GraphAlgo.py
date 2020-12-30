@@ -3,7 +3,7 @@ from typing import List
 from GraphAlgoInterface import GraphAlgoInterface
 
 
-class DiGraph(GraphAlgoInterface):
+class GraphAlgo(GraphAlgoInterface):
     def load_from_json(self, file_name: str) -> bool:
         pass
 
