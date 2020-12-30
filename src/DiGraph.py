@@ -34,11 +34,21 @@ class DiGraph(GraphInterface):
     def remove_edge(self, node_id1, node_id2):
         pass
 
-    def getV(self) -> dict :
-        return(self.V)
+    def get_all_v(self):
+       return self.V
+
+    def all_in_edges_of_node(self, id1: int):
+        return self.inE.get(id1)
+
+    def all_out_edges_of_node(self, id1: int):
+        return self.outE.get(id1)
+
+
+
 
 
 if __name__ == '__main__':
     d = DiGraph()
     d.add_node(0,(33,423,234))
-    print(d.getV())
+    print(d.get_all_v())
+    print(d.get_all_v())
