@@ -6,14 +6,12 @@ class GraphInterface:
         Returns the number of vertices in this graph
         @return: The number of vertices in this graph
         """
-        raise NotImplementedError
 
     def e_size(self) -> int:
         """
         Returns the number of edges in this graph
         @return: The number of edges in this graph
         """
-        raise NotImplementedError
 
     def get_all_v(self) -> dict:
         """return a dictionary of all the nodes in the Graph, each node is represented using apair  (key, node_data)
@@ -35,7 +33,6 @@ class GraphInterface:
         on every change in the graph state - the MC should be increased
         @return: The current version of this graph.
         """
-        raise NotImplementedError
 
     def add_edge(self, id1: int, id2: int, weight: float) -> bool:
         """
@@ -46,7 +43,6 @@ class GraphInterface:
         @return: True if the edge was added successfully, False o.w.
         Note: If the edge already exists or one of the nodes dose not exists the functions will do nothing
         """
-        raise NotImplementedError
 
     def add_node(self, node_id: int, pos: tuple = None) -> bool:
         """
@@ -56,7 +52,6 @@ class GraphInterface:
         @return: True if the node was added successfully, False o.w.
         Note: if the node id already exists the node will not be added
         """
-        raise NotImplementedError
 
     def remove_node(self, node_id: int) -> bool:
         """
@@ -65,7 +60,6 @@ class GraphInterface:
         @return: True if the node was removed successfully, False o.w.
         Note: if the node id does not exists the function will do nothing
         """
-        raise NotImplementedError
 
     def remove_edge(self, node_id1: int, node_id2: int) -> bool:
         """
@@ -75,6 +69,5 @@ class GraphInterface:
         @return: True if the edge was removed successfully, False o.w.
         Note: If such an edge does not exists the function will do nothing
         """
-        raise NotImplementedError
 
 
