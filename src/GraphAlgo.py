@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 from GraphAlgoInterface import GraphAlgoInterface
 from GraphInterface import GraphInterface
+from src.DiGraph import DiGraph
 
 
 class GraphAlgo(GraphAlgoInterface):
@@ -17,9 +18,10 @@ class GraphAlgo(GraphAlgoInterface):
         file = open(file_name, "r")
         jsonn = json.load(file)
         file.close()
-        newG = GraphInterface
+        newG = DiGraph()
+        print(jsonn)
         for i in jsonn["Nodes"]:
-            newG.add_node(i["id"], i["pos"])
+            newG.add_node(i["id"], tuple(i["pos"]))
         for j in jsonn["Edges"]:
             newG.add_edge(j["src"], j["dest"], j["w"])
 
@@ -32,7 +34,7 @@ class GraphAlgo(GraphAlgoInterface):
         jsonn.update({"Nodes": []})
         for i in self.graph.get_all_v():
             jsonARGS = {}
-            jsonARGS.update({"pos": self.graph.get_all_v()[i]})
+            jsonARGS.update({"pos": str(self.graph.get_all_v()[i])})
             jsonARGS.update({"id": i})
             jsonn["Nodes"].append(jsonARGS)
         for node in self.graph.get_all_v():
@@ -42,7 +44,7 @@ class GraphAlgo(GraphAlgoInterface):
                 jsonARGS.update({"w": self.graph.all_out_edges_of_node(node)[dest]})
                 jsonARGS.update({"dest": dest})
                 jsonn["Edges"].append(jsonARGS)
-
+        print(jsonn)
         file = open(file_name, "w")
         print(file)
         file.write(json.dumps(jsonn))

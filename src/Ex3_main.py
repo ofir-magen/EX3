@@ -43,6 +43,7 @@ def check0():
     g.add_edge(2, 3, 1.1)
     g.add_edge(1, 3, 1.9)
     g_algo = GraphAlgo(g)
+    g_algo
     # print(g_algo.shortest_path(0, 3))
     g.remove_edge(1, 3)
     g.add_edge(1, 3, 10)
@@ -51,6 +52,8 @@ def check0():
     # print(g.all_in_edges_of_node(1))
     # print(g.all_out_edges_of_node(1))
     g_algo = GraphAlgo(g)
+    g_algo.load_from_json("/Users/yuval/PycharmProjects/EX3/src/data/A2")
+    g_algo.save_to_json("/Users/yuval/Desktop/g1.txt")
     print(g_algo.connected_component(1))
     # print(g_algo.shortest_path(0, 3))
     # g_algo.connected_components()
