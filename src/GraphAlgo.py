@@ -19,7 +19,7 @@ class GraphAlgo(GraphAlgoInterface):
         jsonn = json.load(file)
         file.close()
         newG = DiGraph()
-        # print(jsonn)
+        print(jsonn)
         for i in jsonn["Nodes"]:
             x = float(i["pos"].split(",")[0])
             y = float(i["pos"].split(",")[1])
@@ -142,10 +142,17 @@ class GraphAlgo(GraphAlgoInterface):
 
     def plot_graph(self) -> None:
 
+        listX = []
+        listY = []
         # x axis values
         for src in self.graph.get_all_v().keys():
-            listX = []
-            listY = []
+            for j in self.graph.all_out_edges_of_node(src).keys():
+                listX.append(self.graph.get_all_v()[src][0])
+                listX.append(self.graph.get_all_v()[j][0])
+                listY.append(self.graph.get_all_v()[src][1])
+                listY.append(self.graph.get_all_v()[j][1])
+
+
             # for dest in self.graph.all_out_edges_of_node(src):
 
         x1 = [1, 2, 3]
@@ -153,8 +160,8 @@ class GraphAlgo(GraphAlgoInterface):
         y1 = [1, 2, 3]
 
         # plotting the points
-        plt.plot(x1, y1, "*")
-        plt.plot(x1, y1)
+        plt.plot(listX, listY, "*")
+        plt.plot(listX, listY)
 
         # naming the x axis
         plt.xlabel('x - axis')
