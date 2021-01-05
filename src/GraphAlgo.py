@@ -92,33 +92,42 @@ class GraphAlgo(GraphAlgoInterface):
         pass
 
     def connected_components(self) -> List[list]:
-        isVisted = {}
-        theAList = {}
-        for i in self.graph.get_all_v():
-            isVisted.update({i: (False, False)})
-        for i in self.graph.get_all_v():
-            if isVisted[i][0] is False:
-                self.dfs(i, isVisted, theAList)
-
-        print(isVisted)
-        pass
-
-    def dffs(self, start, visited=None):
-        if visited is None:
-            visited = set()
-        visited.add(start)
-
-        print(start)
-
-        for next in self.graph.all_out_edges_of_node(start) - visited:
-            self.dffs(next, visited)
-        return visited
-
-    def dfs(self, node: int, isVisited: dict, AList: dict):
+        isVisited = []
+        theAList = []
+        lowLink = {}
         stack = []
-        onStack = []
+        # for i in self.graph.get_all_v().keys():
+        #     isVisited.update({i: False})
 
-        pass
+        for i in self.graph.get_all_v():
+            if i not in isVisited:
+                self.dfs(i, isVisited, lowLink, stack, theAList)
+
+        print(theAList)
+        return theAList
+
+    def dfs(self, node: int, isVisited: list, lowLink: dict, stack: list, theAList: list):
+        stack.append(node)
+        lowLink.update({node: node})
+        isVisited.append(node)
+
+        for i in self.graph.all_out_edges_of_node(node).keys():
+            if i not in isVisited:
+                self.dfs(i, isVisited, lowLink, stack, theAList)
+            if i in stack:
+                lowLink[node] = min(lowLink[node], lowLink[i])
+
+        if lowLink[node] is node:
+            nodeSCC = []
+            nodeSCC.append(node)
+            while 1:
+                curr = stack.pop()
+                if curr is node:
+                    break
+                lowLink[curr] = node
+                nodeSCC.append(curr)
+
+            theAList.append(nodeSCC)
 
     def plot_graph(self) -> None:
 
@@ -126,16 +135,15 @@ class GraphAlgo(GraphAlgoInterface):
         for src in self.graph.get_all_v().keys():
             listX = []
             listY = []
-            for dest in self.graph.all_out_edges_of_node(src):
-                if self.graph.get_all_v()[src] is not None and self.graph.get_all_v(dest) is not None:
-                    listX.append(self.graph.get_all_v()[src](0), self.graph.get_all_v(dest)(0))
+            # for dest in self.graph.all_out_edges_of_node(src):
 
-        x1 = [1, 2, 3 ]
+
+        x1 = [1, 2, 3]
         # corresponding y axis values
         y1 = [1, 2, 3]
 
         # plotting the points
-        plt.plot(x1, y1,"*")
+        plt.plot(x1, y1, "*")
         plt.plot(x1, y1)
 
         # naming the x axis
