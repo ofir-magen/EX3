@@ -52,7 +52,7 @@ def check0():
     # print(g.all_in_edges_of_node(1))
     # print(g.all_out_edges_of_node(1))
     g_algo = GraphAlgo(g)
-    g_algo.load_from_json("/Users/ofirmagen/PycharmProjects/EX3/src/data/A0")
+    g_algo.load_from_json("/Users/ofirmagen/PycharmProjects/EX3/src/data/A1")
    # g_algo.save_to_json("/Users/yuval/Desktop/g1.txt")
    # print(g_algo.connected_component(1))
     # print(g_algo.shortest_path(0, 3))
