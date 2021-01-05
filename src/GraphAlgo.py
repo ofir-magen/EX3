@@ -89,7 +89,12 @@ class GraphAlgo(GraphAlgoInterface):
         return distances[id2], path
 
     def connected_component(self, id1: int) -> list:
-        pass
+        scc = self.connected_components()
+        for list in scc:
+            if id1 in list:
+                return list
+        else:
+            return []
 
     def connected_components(self) -> List[list]:
         isVisited = []
@@ -103,7 +108,6 @@ class GraphAlgo(GraphAlgoInterface):
             if i not in isVisited:
                 self.dfs(i, isVisited, lowLink, stack, theAList)
 
-        print(theAList)
         return theAList
 
     def dfs(self, node: int, isVisited: list, lowLink: dict, stack: list, theAList: list):
@@ -136,7 +140,6 @@ class GraphAlgo(GraphAlgoInterface):
             listX = []
             listY = []
             # for dest in self.graph.all_out_edges_of_node(src):
-
 
         x1 = [1, 2, 3]
         # corresponding y axis values
