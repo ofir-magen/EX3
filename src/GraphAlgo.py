@@ -19,13 +19,18 @@ class GraphAlgo(GraphAlgoInterface):
         jsonn = json.load(file)
         file.close()
         newG = DiGraph()
-        print(jsonn)
+        # print(jsonn)
         for i in jsonn["Nodes"]:
-            newG.add_node(i["id"], tuple(i["pos"]))
+            x = float(i["pos"].split(",")[0])
+            y = float(i["pos"].split(",")[1])
+            z = float(i["pos"].split(",")[2])
+            v = x, y, z
+            newG.add_node(i["id"],v)
         for j in jsonn["Edges"]:
             newG.add_edge(j["src"], j["dest"], j["w"])
 
         self.graph = newG
+        print(self.graph.get_all_v())
         return True
 
     def save_to_json(self, file_name: str) -> bool:
