@@ -1,4 +1,3 @@
-
 from DiGraph import DiGraph
 from GraphAlgo import GraphAlgo
 import random
@@ -11,19 +10,20 @@ def make_graph(node_size):
     start = time.time()
     g = DiGraph()
     for i in range(node_size):
-        g.add_node(i, (" " +str(random.randint(0 ,node_size) ) +",  " +str(random.randint(0 ,node_size) ) +", 0"))
+        v = 3, 4, 5
+        g.add_node(i, (random.randint(0, node_size), random.randint(0, node_size), 0))
 
     x = 0
     for i in range(node_size * 2):
-        x+=1
+        x += 1
         if x == node_size:
-            x=0
+            x = 0
         g.add_edge(x, random.randint(0, node_size), (random.random() * 100))
-
 
     ga = GraphAlgo(g)
     ga.save_to_json("/Users/ofirmagen/PycharmProjects/EX3/src/data/ofir")
     ga.load_from_json("/Users/ofirmagen/PycharmProjects/EX3/src/data/ofir")
+
     end = time.time()
     Time = end - start
     print(Time)
@@ -125,7 +125,6 @@ def check2():
 
 
 if __name__ == '__main__':
-
-    make_graph(100)
+    make_graph(100000)
 
     print(time)

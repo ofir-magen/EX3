@@ -39,7 +39,11 @@ class GraphAlgo(GraphAlgoInterface):
         jsonn.update({"Nodes": []})
         for i in self.graph.get_all_v():
             jsonARGS = {}
-            jsonARGS.update({"pos": str(self.graph.get_all_v()[i])})
+            x = self.graph.get_all_v()[i][0]
+            y = self.graph.get_all_v()[i][1]
+            z = self.graph.get_all_v()[i][2]
+            v = ""+str(x)+","+str(y)+","+str(z)
+            jsonARGS.update({"pos": v})
             jsonARGS.update({"id": i})
             jsonn["Nodes"].append(jsonARGS)
         for node in self.graph.get_all_v():
@@ -49,7 +53,6 @@ class GraphAlgo(GraphAlgoInterface):
                 jsonARGS.update({"w": self.graph.all_out_edges_of_node(node)[dest]})
                 jsonARGS.update({"dest": dest})
                 jsonn["Edges"].append(jsonARGS)
-        # print(jsonn)
         file = open(file_name, "w")
         # print(file)
         file.write(json.dumps(jsonn))
@@ -171,3 +174,18 @@ class GraphAlgo(GraphAlgoInterface):
 
         # function to show the plot
         plt.show()
+    # def connected_componentsofir(self) -> List[list]:
+    #     tag={}
+    #     q=[]
+    #     for i in self.graph.get_all_v():
+    #         tag.update(i,-1)
+    #     q.append(self.graph.get_all_v()[0])
+    #     i=0
+    #     while q.__sizeof__() is not 0:
+    #         for j in self.graph.all_out_edges_of_node(q[i]):
+    #             tag[j]=0
+    #             q.append(j)
+
+        pass
+
+
