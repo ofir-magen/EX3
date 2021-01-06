@@ -19,7 +19,7 @@ class GraphAlgo(GraphAlgoInterface):
         jsonn = json.load(file)
         file.close()
         newG = DiGraph()
-        print(jsonn)
+        # print(jsonn)
         for i in jsonn["Nodes"]:
             x = float(i["pos"].split(",")[0])
             y = float(i["pos"].split(",")[1])
@@ -30,7 +30,7 @@ class GraphAlgo(GraphAlgoInterface):
             newG.add_edge(j["src"], j["dest"], j["w"])
 
         self.graph = newG
-        print(self.graph.get_all_v())
+        # print(self.graph.get_all_v())
         return True
 
     def save_to_json(self, file_name: str) -> bool:
@@ -49,9 +49,9 @@ class GraphAlgo(GraphAlgoInterface):
                 jsonARGS.update({"w": self.graph.all_out_edges_of_node(node)[dest]})
                 jsonARGS.update({"dest": dest})
                 jsonn["Edges"].append(jsonARGS)
-        print(jsonn)
+        # print(jsonn)
         file = open(file_name, "w")
-        print(file)
+        # print(file)
         file.write(json.dumps(jsonn))
         file.close()
 
@@ -141,7 +141,7 @@ class GraphAlgo(GraphAlgoInterface):
             theAList.append(nodeSCC)
 
     def plot_graph(self) -> None:
-
+        
 
         # x axis values
         for src in self.graph.get_all_v().keys():
@@ -152,7 +152,8 @@ class GraphAlgo(GraphAlgoInterface):
                 listX.append(self.graph.get_all_v()[j][0])
                 listY.append(self.graph.get_all_v()[src][1])
                 listY.append(self.graph.get_all_v()[j][1])
-                plt.plot(listX, listY, "r-*")
+                plt.plot(listX, listY, "b>")
+                plt.plot(listX, listY, "r-")
 
 
 

@@ -1,7 +1,33 @@
-import sys
 
 from DiGraph import DiGraph
 from GraphAlgo import GraphAlgo
+import random
+import time
+
+
+# random.random()*10
+
+def make_graph(node_size):
+    start = time.time()
+    g = DiGraph()
+    for i in range(node_size):
+        g.add_node(i, (" " +str(random.randint(0 ,node_size) ) +",  " +str(random.randint(0 ,node_size) ) +", 0"))
+
+    x = 0
+    for i in range(node_size * 2):
+        x+=1
+        if x == node_size:
+            x=0
+        g.add_edge(x, random.randint(0, node_size), (random.random() * 100))
+
+
+    ga = GraphAlgo(g)
+    ga.save_to_json("/Users/ofirmagen/PycharmProjects/EX3/src/data/ofir")
+    ga.load_from_json("/Users/ofirmagen/PycharmProjects/EX3/src/data/ofir")
+    end = time.time()
+    Time = end - start
+    print(Time)
+    ga.plot_graph()
 
 
 def check():
@@ -53,8 +79,8 @@ def check0():
     # print(g.all_out_edges_of_node(1))
     g_algo = GraphAlgo(g)
     g_algo.load_from_json("/Users/ofirmagen/PycharmProjects/EX3/src/data/A1")
-   # g_algo.save_to_json("/Users/yuval/Desktop/g1.txt")
-   # print(g_algo.connected_component(1))
+    # g_algo.save_to_json("/Users/yuval/Desktop/g1.txt")
+    # print(g_algo.connected_component(1))
     # print(g_algo.shortest_path(0, 3))
     # g_algo.connected_components()
     # g_algo.load_from_json("/Users/yuval/Desktop/g.txt")
@@ -99,4 +125,7 @@ def check2():
 
 
 if __name__ == '__main__':
-    check0()
+
+    make_graph(100)
+
+    print(time)
