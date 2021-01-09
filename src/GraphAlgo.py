@@ -25,7 +25,7 @@ class GraphAlgo(GraphAlgoInterface):
             y = float(i["pos"].split(",")[1])
             z = float(i["pos"].split(",")[2])
             v = x, y, z
-            newG.add_node(i["id"],v)
+            newG.add_node(i["id"], v)
         for j in jsonn["Edges"]:
             newG.add_edge(j["src"], j["dest"], j["w"])
 
@@ -42,7 +42,7 @@ class GraphAlgo(GraphAlgoInterface):
             x = self.graph.get_all_v()[i][0]
             y = self.graph.get_all_v()[i][1]
             z = self.graph.get_all_v()[i][2]
-            v = ""+str(x)+","+str(y)+","+str(z)
+            v = "" + str(x) + "," + str(y) + "," + str(z)
             jsonARGS.update({"pos": v})
             jsonARGS.update({"id": i})
             jsonn["Nodes"].append(jsonARGS)
@@ -66,8 +66,9 @@ class GraphAlgo(GraphAlgoInterface):
         if id1 is id2:
             path.append(id1)
             return 0, path
-
         distances = {int: float}
+        for v in self.graph.get_all_v().keys():
+            distances.update({v: -1})
         q = []
         distances.update({id1: 0})
         q.append(id1)
@@ -75,14 +76,14 @@ class GraphAlgo(GraphAlgoInterface):
         while len(q) != 0:
             curr = q.pop(0)
             for i in self.graph.all_out_edges_of_node(curr).keys():
-                if not distances.__contains__(i):
+                if distances[i] == -1:
                     distances.update({i: self.graph.all_out_edges_of_node(curr).get(i) + distances.get(curr)})
                     q.append(i)
                 elif distances[i] > self.graph.all_out_edges_of_node(curr).get(i) + distances.get(curr):
                     distances.update({i: self.graph.all_out_edges_of_node(curr).get(i) + distances.get(curr)})
                     q.append(i)
 
-        if id2 not in distances:
+        if distances[id2] == -1:
             return -1, None
         else:
 
@@ -90,11 +91,11 @@ class GraphAlgo(GraphAlgoInterface):
             path.append(tmp)
 
             while distances[tmp] != 0:
-
                 for i in self.graph.all_in_edges_of_node(tmp).keys():
                     if distances[i] + self.graph.all_out_edges_of_node(i)[tmp] == distances[tmp]:
                         path.append(i)
                         tmp = i
+                        break
             path.reverse()
         return distances[id2], path
 
@@ -143,8 +144,45 @@ class GraphAlgo(GraphAlgoInterface):
 
             theAList.append(nodeSCC)
 
+    def maybenewSCC(self):
+        tags = {}
+        counter = -1
+        for i in self.graph.get_all_v().keys():
+            tags.update({i: -1})
+        for node in self.graph.get_all_v().keys():
+            q = []
+            flag = False
+            if tags[node] == -1:
+                counter += 1
+                tags[node] = counter
+                q.append(node)
+                while len(q) != 0:
+                    tmp = q.pop(0)
+                    for ni in self.graph.all_out_edges_of_node(tmp).keys():
+
+
+                                if self.shortest_path(ni, tmp)[0] != -1:
+                                    tags[ni] = tags[tmp]
+                                else:
+                                    counter += 1
+                                    tags[ni] = counter
+
+        list1 = {}
+        # for n in self.graph.get_all_v().keys():
+        #     if tags[n] not in list1:
+        #         list2 = []
+        #         list2.append(n)
+        #         list1.update({tags[n]: list2})
+        #     else:
+        #         list1[tags[n]].append(n)
+        #
+        # therealist = []
+        # for therealminilist in list1.values():
+        #     therealist.append(therealminilist)
+        #
+        # return therealist
+
     def plot_graph(self) -> None:
-        
 
         # x axis values
         for src in self.graph.get_all_v().keys():
@@ -158,11 +196,7 @@ class GraphAlgo(GraphAlgoInterface):
                 plt.plot(listX, listY, "b>")
                 plt.plot(listX, listY, "r-")
 
-
-
         # plotting the points
-
-
 
         # naming the x axis
         plt.xlabel('x - axis')
@@ -174,18 +208,16 @@ class GraphAlgo(GraphAlgoInterface):
 
         # function to show the plot
         plt.show()
-    # def connected_componentsofir(self) -> List[list]:
-    #     tag={}
-    #     q=[]
-    #     for i in self.graph.get_all_v():
-    #         tag.update(i,-1)
-    #     q.append(self.graph.get_all_v()[0])
-    #     i=0
-    #     while q.__sizeof__() is not 0:
-    #         for j in self.graph.all_out_edges_of_node(q[i]):
-    #             tag[j]=0
-    #             q.append(j)
+        # def connected_componentsofir(self) -> List[list]:
+        #     tag={}
+        #     q=[]
+        #     for i in self.graph.get_all_v():
+        #         tag.update(i,-1)
+        #     q.append(self.graph.get_all_v()[0])
+        #     i=0
+        #     while q.__sizeof__() is not 0:
+        #         for j in self.graph.all_out_edges_of_node(q[i]):
+        #             tag[j]=0
+        #             q.append(j)
 
         pass
-
-

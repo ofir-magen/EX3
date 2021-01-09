@@ -1,3 +1,4 @@
+
 from DiGraph import DiGraph
 from GraphAlgo import GraphAlgo
 import random
@@ -7,10 +8,9 @@ import time
 # random.random()*10
 
 def make_graph(node_size):
-    start = time.time()
+    # start = time.time()
     g = DiGraph()
     for i in range(node_size):
-        v = 3, 4, 5
         g.add_node(i, (random.randint(0, node_size), random.randint(0, node_size), 0))
 
     x = 0
@@ -20,14 +20,17 @@ def make_graph(node_size):
             x = 0
         g.add_edge(x, random.randint(0, node_size), (random.random() * 100))
 
-    ga = GraphAlgo(g)
-    ga.save_to_json("/Users/ofirmagen/PycharmProjects/EX3/src/data/ofir")
-    ga.load_from_json("/Users/ofirmagen/PycharmProjects/EX3/src/data/ofir")
 
-    end = time.time()
-    Time = end - start
-    print(Time)
-    ga.plot_graph()
+    ga = GraphAlgo(g)
+    # ga.save_to_json("/Users/yuval/PycharmProjects/OOP_EX3/src/data/ofir")
+    # ga.load_from_json("/Users/yuval/PycharmProjects/OOP_EX3/src/data/ofir")
+
+    # end = time.time()
+    # Time = end - start
+    # print(Time)
+
+    # ga.plot_graph()
+    return g
 
 
 def check():
@@ -73,18 +76,23 @@ def check0():
     # print(g_algo.shortest_path(0, 3))
     g.remove_edge(1, 3)
     g.add_edge(1, 3, 10)
+    g_algo2 = GraphAlgo(make_graph(10000))
     # print(g)  # prints the __repr__ (func output)
     # print(g.get_all_v())  # prints a dict with all the graph's vertices.
     # print(g.all_in_edges_of_node(1))
     # print(g.all_out_edges_of_node(1))
-    g_algo = GraphAlgo(g)
-    g_algo.load_from_json("/Users/ofirmagen/PycharmProjects/EX3/src/data/A1")
+   # g_algo = GraphAlgo(g)
+   #  g_algo.load_from_json("../data/A1")
     # g_algo.save_to_json("/Users/yuval/Desktop/g1.txt")
-    # print(g_algo.connected_component(1))
+    s = time.time()
+    # print(g_algo2.connected_components())
+    print(g_algo2.maybenewSCC())
+    f = time.time() - s
+    print(f)
     # print(g_algo.shortest_path(0, 3))
     # g_algo.connected_components()
     # g_algo.load_from_json("/Users/yuval/Desktop/g.txt")
-    g_algo.plot_graph()
+    #g_algo.plot_graph()
 
 
 def check1():
@@ -125,6 +133,4 @@ def check2():
 
 
 if __name__ == '__main__':
-    make_graph(100000)
-
-    print(time)
+   check0()
