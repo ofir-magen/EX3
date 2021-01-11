@@ -3,7 +3,6 @@ from GraphAlgo import GraphAlgo
 import random
 import time
 import networkx as nx
-# random.random()*10
 from GraphInterface import GraphInterface
 import matplotlib.pyplot as plt
 
@@ -180,32 +179,32 @@ def check2():
 if __name__ == '__main__':
     # ****check 10/80
     g = GraphAlgo(GraphInterface)
-    g.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs_on_circle/G_10_80_1.json")
+    g.load_from_json("/Users/yuval/PycharmProjects/EX_3/Graphs_on_circle/G_10_80_1.json")
     v1 = checkNetworkX(g.get_graph())
     w1 = checkME(g)
     # g.plot_graph()
     # ****check 100/800
-    g.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs_on_circle/G_100_800_1.json")
+    g.load_from_json("/Users/yuval/PycharmProjects/EX_3/Graphs_on_circle/G_100_800_1.json")
     v2 = checkNetworkX(g.get_graph())
     w2 = checkME(g)
     # g.plot_graph()
     # ****check 1000/8000
-    g.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs_on_circle/G_1000_8000_1.json")
+    g.load_from_json("/Users/yuval/PycharmProjects/EX_3/Graphs_on_circle/G_1000_8000_1.json")
     v3 = checkNetworkX(g.get_graph())
     w3 = checkME(g)
     # g.plot_graph()
     # ****check 10000/80000
-    g.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs_on_circle/G_10000_80000_1.json")
+    g.load_from_json("/Users/yuval/PycharmProjects/EX_3/Graphs_on_circle/G_10000_80000_1.json")
     v4 = checkNetworkX(g.get_graph())
     w4 = checkME(g)
     # g.plot_graph()
     # ****check 20000/16000
-    g.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs_on_circle/G_20000_160000_1.json")
+    g.load_from_json("/Users/yuval/PycharmProjects/EX_3/Graphs_on_circle/G_20000_160000_1.json")
     v5 = checkNetworkX(g.get_graph())
     w5 = checkME(g)
     # g.plot_graph()
     # ****check 30000/240000
-    g.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs_on_circle/G_30000_240000_1.json")
+    g.load_from_json("/Users/yuval/PycharmProjects/EX_3/Graphs_on_circle/G_30000_240000_1.json")
     v6 = checkNetworkX(g.get_graph())
     w6 = checkME(g)
     # g.plot_graph()
@@ -214,15 +213,28 @@ if __name__ == '__main__':
     listV1 = [v1[1], v2[1], v3[1], v4[1], v5[1], v6[1]]
     listW0 = [w1[0], w2[0], w3[0], w4[0], w5[0], w6[0]]
     listW1 = [w1[1], w2[1], w3[1], w4[1], w5[1], w6[1]]
-    plt.plot(listofNodes,listW0, "r-")
-    plt.plot(listofNodes,listV0)
+    listU0 = [w1[0] / 2, w2[0] / 2, w3[0] / 2, w4[0] / 2, w5[0] / 2, w6[0] / 2]
+    listU1 = [w1[1] / 2, w2[1] / 2, w3[1] / 2, w4[1] / 2, w5[1] / 2, w6[1] / 2]
+    listW2 = [w1[2], w2[2], w3[2], w4[2], w5[2], w6[2]]
+    listU2 = [w1[2] / 2, w2[2] / 2, w3[2] / 2, w4[2] / 2, w5[2] / 2, w6[2] / 2]
+    plt.plot(listofNodes, listW0, "r")
+    plt.plot(listofNodes, listV0)
+    plt.plot(listofNodes, listU0, "b")
     plt.xlabel("Nodes")
     plt.ylabel("time (in seconds)")
     plt.title("Connected Components")
+    plt.legend
     plt.show()
-    plt.plot(listofNodes, listW1, "r-")
+    plt.plot(listofNodes, listW1, "r")
     plt.plot(listofNodes, listV1)
+    plt.plot(listofNodes, listU1, "b")
     plt.xlabel("Nodes")
     plt.ylabel("time (in seconds)")
     plt.title("Shortest path")
+    plt.show()
+    plt.plot(listofNodes, listW2)
+    plt.plot(listofNodes, listU2, "b")
+    plt.xlabel("Nodes")
+    plt.ylabel("time (in seconds)")
+    plt.title("Connected Component")
     plt.show()

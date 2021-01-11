@@ -76,9 +76,7 @@ class GraphAlgo(GraphAlgoInterface):
         if id1 not in self.graph.get_all_v().keys() or id2 not in self.graph.get_all_v().keys():
             return -1, path
 
-        if id1 is id2:
-            path.append(id1)
-            return 0, path
+
         distances = {int: float}
         for v in self.graph.get_all_v().keys():
             distances.update({v: -1})
@@ -96,6 +94,9 @@ class GraphAlgo(GraphAlgoInterface):
                     distances.update({i: self.graph.all_out_edges_of_node(curr).get(i) + distances.get(curr)})
                     q.append(i)
 
+        if id1 is id2:
+            path.append(id1)
+            return 0, path
         if distances[id2] == -1:
             return -1, None
         else:
