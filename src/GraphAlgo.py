@@ -1,6 +1,8 @@
+from math import inf
 from typing import List
 import json
 import matplotlib.pyplot as plt
+import self as self
 
 from GraphAlgoInterface import GraphAlgoInterface
 from GraphInterface import GraphInterface
@@ -15,25 +17,33 @@ class GraphAlgo(GraphAlgoInterface):
         return self.graph
 
     def load_from_json(self, file_name: str) -> bool:
-        file = open(file_name, "r")
-        jsonn = json.load(file)
-        file.close()
-        newG = DiGraph()
-        # print(jsonn)
-        for i in jsonn["Nodes"]:
-            x = float(i["pos"].split(",")[0])
-            y = float(i["pos"].split(",")[1])
-            z = float(i["pos"].split(",")[2])
-            v = x, y, z
-            newG.add_node(i["id"], v)
-        for j in jsonn["Edges"]:
-            newG.add_edge(j["src"], j["dest"], j["w"])
+        try:
+            file = open(file_name, "r")
+            jsonn = json.load(file)
+            file.close()
+            newG = DiGraph()
+            # print(jsonn)
+            for i in jsonn["Nodes"]:
+                if "pos" in i:
+                    x = float(i["pos"].split(",")[0])
+                    y = float(i["pos"].split(",")[1])
+                    z = float(i["pos"].split(",")[2])
+                    v = x, y, z
+                    newG.add_node(i["id"], v)
+                else:
+                    newG.add_node(i["id"])
 
-        self.graph = newG
-        # print(self.graph.get_all_v())
+            for j in jsonn["Edges"]:
+                newG.add_edge(j["src"], j["dest"], j["w"])
+
+            self.graph = newG
+        except Exception as e:
+            print(e)
+            return False
         return True
 
     def save_to_json(self, file_name: str) -> bool:
+
         jsonn = {}
         jsonn.update({"Edges": []})
         jsonn.update({"Nodes": []})
@@ -100,87 +110,53 @@ class GraphAlgo(GraphAlgoInterface):
         return distances[id2], path
 
     def connected_component(self, id1: int) -> list:
-        scc = self.connected_components()
-        for list in scc:
-            if id1 in list:
-                return list
-        else:
-            return []
+        l1 = []
+        for l in self.connected_components():
+            if id1 in l:
+                return l
+        return l1
 
     def connected_components(self) -> List[list]:
-        isVisited = []
-        theAList = []
-        lowLink = {}
-        stack = []
-        # for i in self.graph.get_all_v().keys():
-        #     isVisited.update({i: False})
-
-        for i in self.graph.get_all_v():
-            if i not in isVisited:
-                self.dfs(i, isVisited, lowLink, stack, theAList)
-
-        return theAList
-
-    def dfs(self, node: int, isVisited: list, lowLink: dict, stack: list, theAList: list):
-        stack.append(node)
-        lowLink.update({node: node})
-        isVisited.append(node)
-
-        for i in self.graph.all_out_edges_of_node(node).keys():
-            if i not in isVisited:
-                self.dfs(i, isVisited, lowLink, stack, theAList)
-            if i in stack:
-                lowLink[node] = min(lowLink[node], lowLink[i])
-
-        if lowLink[node] is node:
-            nodeSCC = []
-            nodeSCC.append(node)
-            while 1:
-                curr = stack.pop()
-                if curr is node:
-                    break
-                lowLink[curr] = node
-                nodeSCC.append(curr)
-
-            theAList.append(nodeSCC)
-
-    def maybenewSCC(self):
-        tags = {}
-        counter = -1
-        for i in self.graph.get_all_v().keys():
-            tags.update({i: -1})
-        for node in self.graph.get_all_v().keys():
-            q = []
-            flag = False
-            if tags[node] == -1:
-                counter += 1
-                tags[node] = counter
-                q.append(node)
-                while len(q) != 0:
-                    tmp = q.pop(0)
-                    for ni in self.graph.all_out_edges_of_node(tmp).keys():
-
-
-                                if self.shortest_path(ni, tmp)[0] != -1:
-                                    tags[ni] = tags[tmp]
+        theRealSCC = []
+        preorder = {}
+        lowlink = {}
+        scc_found = {}
+        scc_queue = []
+        i = 0
+        for source in self.graph.get_all_v():
+            if source not in scc_found:
+                queue = [source]
+                while queue:
+                    v = queue[-1]
+                    if v not in preorder:
+                        i = i + 1
+                        preorder[v] = i
+                    done = 1
+                    for w in self.graph.all_out_edges_of_node(v):
+                        if w not in preorder:
+                            queue.append(w)
+                            done = 0
+                            break
+                    if done == 1:
+                        lowlink[v] = preorder[v]
+                        for w in self.graph.all_out_edges_of_node(v):
+                            if w not in scc_found:
+                                if preorder[w] > preorder[v]:
+                                    lowlink[v] = min([lowlink[v], lowlink[w]])
                                 else:
-                                    counter += 1
-                                    tags[ni] = counter
-
-        list1 = {}
-        # for n in self.graph.get_all_v().keys():
-        #     if tags[n] not in list1:
-        #         list2 = []
-        #         list2.append(n)
-        #         list1.update({tags[n]: list2})
-        #     else:
-        #         list1[tags[n]].append(n)
-        #
-        # therealist = []
-        # for therealminilist in list1.values():
-        #     therealist.append(therealminilist)
-        #
-        # return therealist
+                                    lowlink[v] = min([lowlink[v], preorder[w]])
+                        queue.pop()
+                        if lowlink[v] == preorder[v]:
+                            scc_found[v] = True
+                            scc = [v]
+                            while scc_queue and preorder[scc_queue[-1]] > preorder[v]:
+                                k = scc_queue.pop()
+                                scc_found[k] = True
+                                scc.append(k)
+                            theRealSCC.append(scc)
+                        else:
+                            scc_queue.append(v)
+        return theRealSCC
 
     def plot_graph(self) -> None:
 

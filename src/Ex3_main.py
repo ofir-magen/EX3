@@ -1,11 +1,11 @@
-
 from DiGraph import DiGraph
 from GraphAlgo import GraphAlgo
 import random
 import time
 
-
 # random.random()*10
+from GraphInterface import GraphInterface
+
 
 def make_graph(node_size):
     # start = time.time()
@@ -19,7 +19,6 @@ def make_graph(node_size):
         if x == node_size:
             x = 0
         g.add_edge(x, random.randint(0, node_size), (random.random() * 100))
-
 
     ga = GraphAlgo(g)
     # ga.save_to_json("/Users/yuval/PycharmProjects/OOP_EX3/src/data/ofir")
@@ -76,23 +75,29 @@ def check0():
     # print(g_algo.shortest_path(0, 3))
     g.remove_edge(1, 3)
     g.add_edge(1, 3, 10)
-    g_algo2 = GraphAlgo(make_graph(10000))
+    g_algo2 = GraphAlgo(GraphInterface)
+    g_algo2.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs/G_30000_240000_0.json")
+    s1 = time.time()
+    print(g_algo2.connected_components())
+    print(time.time() - s1)
     # print(g)  # prints the __repr__ (func output)
     # print(g.get_all_v())  # prints a dict with all the graph's vertices.
     # print(g.all_in_edges_of_node(1))
     # print(g.all_out_edges_of_node(1))
-   # g_algo = GraphAlgo(g)
-   #  g_algo.load_from_json("../data/A1")
+    # g_algo = GraphAlgo(g)
+    #  g_algo.load_from_json("../data/A1")
     # g_algo.save_to_json("/Users/yuval/Desktop/g1.txt")
     s = time.time()
     # print(g_algo2.connected_components())
-    print(g_algo2.maybenewSCC())
+    # print(g_algo2.connected_components())
     f = time.time() - s
-    print(f)
-    # print(g_algo.shortest_path(0, 3))
-    # g_algo.connected_components()
-    # g_algo.load_from_json("/Users/yuval/Desktop/g.txt")
-    #g_algo.plot_graph()
+
+
+#  print(f)
+# print(g_algo.shortest_path(0, 3))
+# g_algo.connected_components()
+# g_algo.load_from_json("/Users/yuval/Desktop/g.txt")
+# g_algo.plot_graph()
 
 
 def check1():
@@ -133,4 +138,4 @@ def check2():
 
 
 if __name__ == '__main__':
-   check0()
+    check0()
