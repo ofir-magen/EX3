@@ -70,7 +70,9 @@ class GraphAlgo(GraphAlgoInterface):
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         path = []
-        if id1 not in self.graph.get_all_v() or id2 not in self.graph.get_all_v():
+        if self.graph.get_all_v() is None:
+            return  -1,path
+        if id1 not in self.graph.get_all_v().keys() or id2 not in self.graph.get_all_v().keys():
             return -1, path
 
         if id1 is id2:
@@ -117,6 +119,8 @@ class GraphAlgo(GraphAlgoInterface):
         return l1
 
     def connected_components(self) -> List[list]:
+        if self.graph.get_all_v() is None:
+            return []
         theRealSCC = []
         preorder = {}
         lowlink = {}
@@ -159,8 +163,6 @@ class GraphAlgo(GraphAlgoInterface):
         return theRealSCC
 
     def plot_graph(self) -> None:
-
-        # x axis values
         for src in self.graph.get_all_v().keys():
             for j in self.graph.all_out_edges_of_node(src).keys():
                 listX = []
@@ -172,28 +174,9 @@ class GraphAlgo(GraphAlgoInterface):
                 plt.plot(listX, listY, "b>")
                 plt.plot(listX, listY, "r-")
 
-        # plotting the points
-
-        # naming the x axis
         plt.xlabel('x - axis')
-        # naming the y axis
         plt.ylabel('y - axis')
-
-        # giving a title to my graph
         plt.title('My first graph!')
-
-        # function to show the plot
         plt.show()
-        # def connected_componentsofir(self) -> List[list]:
-        #     tag={}
-        #     q=[]
-        #     for i in self.graph.get_all_v():
-        #         tag.update(i,-1)
-        #     q.append(self.graph.get_all_v()[0])
-        #     i=0
-        #     while q.__sizeof__() is not 0:
-        #         for j in self.graph.all_out_edges_of_node(q[i]):
-        #             tag[j]=0
-        #             q.append(j)
 
-        pass
+

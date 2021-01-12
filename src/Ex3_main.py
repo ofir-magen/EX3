@@ -2,7 +2,7 @@ from DiGraph import DiGraph
 from GraphAlgo import GraphAlgo
 import random
 import time
-
+import networkx as nx
 # random.random()*10
 from GraphInterface import GraphInterface
 
@@ -57,6 +57,35 @@ def check():
     check2()
 
 
+def checkME(graph: GraphAlgo):
+    start = time.time()
+    graph.connected_components()
+    print("The time took for the Graph (GraphInterface) with ", len(graph.get_graph().get_all_v().keys()), "Nodes is: ",
+          time.time() - start, "for connected_components")
+    start = time.time()
+    print(graph.shortest_path(0, 4))
+    print("The time took for the Graph (GraphInterface) with ", len(graph.get_graph().get_all_v().keys()), "Nodes is: ",
+          time.time() - start, "for shortestPath")
+
+
+def checkNetworkX(graph: GraphInterface):
+    G = nx.DiGraph()
+    for i in graph.get_all_v().keys():
+        G.add_node(i)
+    for src in graph.get_all_v().keys():
+        for dest, weight in graph.all_out_edges_of_node(i).items():
+            G.add_edge(src, dest, weight=weight)
+
+    start = time.time()
+    nx.strongly_connected_components(G)
+    print("The time took for the Graph (NetworkX) with ", len(graph.get_all_v().keys()), "Nodes is: ",
+          time.time() - start, "for connected_components")
+    start = time.time()
+    nx.dijkstra_path(G=G, source=0, target=4)
+    print("The time took for the Graph (NetworkX) with ", len(graph.get_all_v().keys()), "Nodes is: ",
+          time.time() - start, "for shortestPath")
+
+
 def check0():
     """
     This function tests the naming (main methods of the DiGraph class, as defined in GraphInterface.
@@ -78,8 +107,10 @@ def check0():
     g_algo2 = GraphAlgo(GraphInterface)
     g_algo2.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs/G_30000_240000_0.json")
     s1 = time.time()
-    print(g_algo2.connected_components())
+    print("time taken for ")
     print(time.time() - s1)
+    """***********NetworkX***********"""
+    nx.DiGraph
     # print(g)  # prints the __repr__ (func output)
     # print(g.get_all_v())  # prints a dict with all the graph's vertices.
     # print(g.all_in_edges_of_node(1))
@@ -138,4 +169,29 @@ def check2():
 
 
 if __name__ == '__main__':
-    check0()
+    # ****check 10/80
+    g = GraphAlgo(GraphInterface)
+    g.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs_on_circle/G_10_80_1.json")
+    checkNetworkX(g.get_graph())
+    checkME(g)
+    # ****check 100/800
+    g.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs_on_circle/G_100_800_1.json")
+    checkNetworkX(g.get_graph())
+    checkME(g)
+    # ****check 1000/8000
+    g.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs_on_circle/G_1000_8000_1.json")
+    checkNetworkX(g.get_graph())
+    checkME(g)
+    # ****check 10000/80000
+    g.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs_on_circle/G_10000_80000_1.json")
+    checkNetworkX(g.get_graph())
+    checkME(g)
+    # ****check 20000/16000
+    g.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs_on_circle/G_20000_160000_1.json")
+    checkNetworkX(g.get_graph())
+    checkME(g)
+    # ****check 30000/240000
+    g.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs_on_circle/G_30000_240000_1.json")
+    checkNetworkX(g.get_graph())
+    checkME(g)
+
