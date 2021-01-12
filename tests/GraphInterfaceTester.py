@@ -69,6 +69,8 @@ class MyTestCase(unittest.TestCase):
         a1 = g.remove_edge(1, 0)  # False
         a2 = g.remove_edge(0, 1)  # True
         c1 = g.add_edge(0, 1, 9)  # True
+        c2 = g.add_edge(0, 1, 10)  # True
+        print(g.all_out_edges_of_node(0))
         eSize = g.e_size()  # 1
         vSize = g.v_size()  # 2
         path1 = g_algo.shortest_path(0, 1)  # (9, [0,1])

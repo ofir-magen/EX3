@@ -1,3 +1,4 @@
+import math
 from math import inf
 from typing import List
 import json
@@ -50,11 +51,12 @@ class GraphAlgo(GraphAlgoInterface):
         if self.graph is not None:
             for i in self.graph.get_all_v():
                 jsonARGS = {}
-                x = self.graph.get_all_v()[i][0]
-                y = self.graph.get_all_v()[i][1]
-                z = self.graph.get_all_v()[i][2]
-                v = "" + str(x) + "," + str(y) + "," + str(z)
-                jsonARGS.update({"pos": v})
+                if self.graph.get_all_v()[i] is not None:
+                    x = self.graph.get_all_v()[i][0]
+                    y = self.graph.get_all_v()[i][1]
+                    z = self.graph.get_all_v()[i][2]
+                    v = "" + str(x) + "," + str(y) + "," + str(z)
+                    jsonARGS.update({"pos": v})
                 jsonARGS.update({"id": i})
                 jsonn["Nodes"].append(jsonARGS)
             for node in self.graph.get_all_v():
@@ -75,7 +77,6 @@ class GraphAlgo(GraphAlgoInterface):
             return -1, path
         if id1 not in self.graph.get_all_v().keys() or id2 not in self.graph.get_all_v().keys():
             return -1, path
-
 
         distances = {int: float}
         for v in self.graph.get_all_v().keys():
@@ -98,7 +99,7 @@ class GraphAlgo(GraphAlgoInterface):
             path.append(id1)
             return 0, path
         if distances[id2] == -1:
-            return -1, None
+            return math.inf, path
         else:
 
             tmp = id2
@@ -169,16 +170,13 @@ class GraphAlgo(GraphAlgoInterface):
             for j in self.graph.all_out_edges_of_node(src).keys():
                 listX = []
                 listY = []
-                listX.append(self.graph.get_all_v()[src][0])
-                listX.append(self.graph.get_all_v()[j][0])
-                listY.append(self.graph.get_all_v()[src][1])
-                listY.append(self.graph.get_all_v()[j][1])
-                plt.plot(listX, listY, "b>")
-                plt.plot(listX, listY, "r-")
-                dx = listX[1] - listX[0]
-                dy = listY[1] - listY[0]
-                # plt.arrow(listX[0], listY[0], dx, dy, length_includes_head=True, width=(scale * 0.001),
-                #           head_width=(scale * 0.07))
+                if self.graph.get_all_v()[src] is not None and self.graph.get_all_v()[j] is not None:
+                    listX.append(self.graph.get_all_v()[src][0])
+                    listX.append(self.graph.get_all_v()[j][0])
+                    listY.append(self.graph.get_all_v()[src][1])
+                    listY.append(self.graph.get_all_v()[j][1])
+                    plt.plot(listX, listY, "b>")
+                    plt.plot(listX, listY, "r-")
 
         plt.xlabel('x - axis')
         plt.ylabel('y - axis')
