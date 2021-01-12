@@ -5,6 +5,7 @@ import time
 import networkx as nx
 # random.random()*10
 from GraphInterface import GraphInterface
+import matplotlib.pyplot as plt
 
 
 def make_graph(node_size):
@@ -60,12 +61,20 @@ def check():
 def checkME(graph: GraphAlgo):
     start = time.time()
     graph.connected_components()
+    final1 = time.time() - start
     print("The time took for the Graph (GraphInterface) with ", len(graph.get_graph().get_all_v().keys()), "Nodes is: ",
-          time.time() - start, "for connected_components")
+          final1, "for connected_components")
     start = time.time()
-    print(graph.shortest_path(0, 4))
+    graph.shortest_path(0, 0)
+    final2 = time.time() - start
     print("The time took for the Graph (GraphInterface) with ", len(graph.get_graph().get_all_v().keys()), "Nodes is: ",
-          time.time() - start, "for shortestPath")
+          final2, "for shortestPath")
+    start = time.time()
+    graph.connected_component(0)
+    final3 = time.time() - start
+    print("The time took for the Graph (GraphInterface) with ", len(graph.get_graph().get_all_v().keys()), "Nodes is: ",
+          final3, "for shortestPath")
+    return final1, final2, final3
 
 
 def checkNetworkX(graph: GraphInterface):
@@ -78,12 +87,15 @@ def checkNetworkX(graph: GraphInterface):
 
     start = time.time()
     nx.strongly_connected_components(G)
+    final1 = time.time() - start
     print("The time took for the Graph (NetworkX) with ", len(graph.get_all_v().keys()), "Nodes is: ",
-          time.time() - start, "for connected_components")
+          final1, "for connected_components")
     start = time.time()
-    nx.dijkstra_path(G=G, source=0, target=4)
+    nx.dijkstra_path(G=G, source=0, target=0)
+    final2 = time.time() - start
     print("The time took for the Graph (NetworkX) with ", len(graph.get_all_v().keys()), "Nodes is: ",
-          time.time() - start, "for shortestPath")
+          final2, "for shortestPath")
+    return final1, final2
 
 
 def check0():
@@ -100,7 +112,6 @@ def check0():
     g.add_edge(2, 3, 1.1)
     g.add_edge(1, 3, 1.9)
     g_algo = GraphAlgo(g)
-    g_algo
     # print(g_algo.shortest_path(0, 3))
     g.remove_edge(1, 3)
     g.add_edge(1, 3, 10)
@@ -109,8 +120,6 @@ def check0():
     s1 = time.time()
     print("time taken for ")
     print(time.time() - s1)
-    """***********NetworkX***********"""
-    nx.DiGraph
     # print(g)  # prints the __repr__ (func output)
     # print(g.get_all_v())  # prints a dict with all the graph's vertices.
     # print(g.all_in_edges_of_node(1))
@@ -172,26 +181,48 @@ if __name__ == '__main__':
     # ****check 10/80
     g = GraphAlgo(GraphInterface)
     g.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs_on_circle/G_10_80_1.json")
-    checkNetworkX(g.get_graph())
-    checkME(g)
+    v1 = checkNetworkX(g.get_graph())
+    w1 = checkME(g)
+    # g.plot_graph()
     # ****check 100/800
     g.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs_on_circle/G_100_800_1.json")
-    checkNetworkX(g.get_graph())
-    checkME(g)
+    v2 = checkNetworkX(g.get_graph())
+    w2 = checkME(g)
+    # g.plot_graph()
     # ****check 1000/8000
     g.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs_on_circle/G_1000_8000_1.json")
-    checkNetworkX(g.get_graph())
-    checkME(g)
+    v3 = checkNetworkX(g.get_graph())
+    w3 = checkME(g)
+    # g.plot_graph()
     # ****check 10000/80000
     g.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs_on_circle/G_10000_80000_1.json")
-    checkNetworkX(g.get_graph())
-    checkME(g)
+    v4 = checkNetworkX(g.get_graph())
+    w4 = checkME(g)
+    # g.plot_graph()
     # ****check 20000/16000
     g.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs_on_circle/G_20000_160000_1.json")
-    checkNetworkX(g.get_graph())
-    checkME(g)
+    v5 = checkNetworkX(g.get_graph())
+    w5 = checkME(g)
+    # g.plot_graph()
     # ****check 30000/240000
     g.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs_on_circle/G_30000_240000_1.json")
-    checkNetworkX(g.get_graph())
-    checkME(g)
-
+    v6 = checkNetworkX(g.get_graph())
+    w6 = checkME(g)
+    # g.plot_graph()
+    listV0 = [v1[0], v2[0], v3[0], v4[0], v5[0], v6[0]]
+    listofNodes = [10, 100, 1000, 10000, 20000, 30000]
+    listV1 = [v1[1], v2[1], v3[1], v4[1], v5[1], v6[1]]
+    listW0 = [w1[0], w2[0], w3[0], w4[0], w5[0], w6[0]]
+    listW1 = [w1[1], w2[1], w3[1], w4[1], w5[1], w6[1]]
+    plt.plot(listofNodes,listW0, "r-")
+    plt.plot(listofNodes,listV0)
+    plt.xlabel("Nodes")
+    plt.ylabel("time (in seconds)")
+    plt.title("Connected Components")
+    plt.show()
+    plt.plot(listofNodes, listW1, "r-")
+    plt.plot(listofNodes, listV1)
+    plt.xlabel("Nodes")
+    plt.ylabel("time (in seconds)")
+    plt.title("Shortest path")
+    plt.show()

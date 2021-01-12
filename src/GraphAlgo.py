@@ -10,7 +10,7 @@ from src.DiGraph import DiGraph
 
 
 class GraphAlgo(GraphAlgoInterface):
-    def __init__(self, g: GraphInterface):
+    def __init__(self, g: GraphInterface = None):
         self.graph = g
 
     def get_graph(self) -> GraphInterface:
@@ -47,22 +47,23 @@ class GraphAlgo(GraphAlgoInterface):
         jsonn = {}
         jsonn.update({"Edges": []})
         jsonn.update({"Nodes": []})
-        for i in self.graph.get_all_v():
-            jsonARGS = {}
-            x = self.graph.get_all_v()[i][0]
-            y = self.graph.get_all_v()[i][1]
-            z = self.graph.get_all_v()[i][2]
-            v = "" + str(x) + "," + str(y) + "," + str(z)
-            jsonARGS.update({"pos": v})
-            jsonARGS.update({"id": i})
-            jsonn["Nodes"].append(jsonARGS)
-        for node in self.graph.get_all_v():
-            for dest in self.graph.all_out_edges_of_node(node):
+        if self.graph is not None:
+            for i in self.graph.get_all_v():
                 jsonARGS = {}
-                jsonARGS.update({"src": node})
-                jsonARGS.update({"w": self.graph.all_out_edges_of_node(node)[dest]})
-                jsonARGS.update({"dest": dest})
-                jsonn["Edges"].append(jsonARGS)
+                x = self.graph.get_all_v()[i][0]
+                y = self.graph.get_all_v()[i][1]
+                z = self.graph.get_all_v()[i][2]
+                v = "" + str(x) + "," + str(y) + "," + str(z)
+                jsonARGS.update({"pos": v})
+                jsonARGS.update({"id": i})
+                jsonn["Nodes"].append(jsonARGS)
+            for node in self.graph.get_all_v():
+                for dest in self.graph.all_out_edges_of_node(node):
+                    jsonARGS = {}
+                    jsonARGS.update({"src": node})
+                    jsonARGS.update({"w": self.graph.all_out_edges_of_node(node)[dest]})
+                    jsonARGS.update({"dest": dest})
+                    jsonn["Edges"].append(jsonARGS)
         file = open(file_name, "w")
         # print(file)
         file.write(json.dumps(jsonn))
@@ -71,7 +72,7 @@ class GraphAlgo(GraphAlgoInterface):
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         path = []
         if self.graph.get_all_v() is None:
-            return  -1,path
+            return -1, path
         if id1 not in self.graph.get_all_v().keys() or id2 not in self.graph.get_all_v().keys():
             return -1, path
 
@@ -173,10 +174,12 @@ class GraphAlgo(GraphAlgoInterface):
                 listY.append(self.graph.get_all_v()[j][1])
                 plt.plot(listX, listY, "b>")
                 plt.plot(listX, listY, "r-")
+                dx = listX[1] - listX[0]
+                dy = listY[1] - listY[0]
+                # plt.arrow(listX[0], listY[0], dx, dy, length_includes_head=True, width=(scale * 0.001),
+                #           head_width=(scale * 0.07))
 
         plt.xlabel('x - axis')
         plt.ylabel('y - axis')
         plt.title('My first graph!')
         plt.show()
-
-
