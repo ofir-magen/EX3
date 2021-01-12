@@ -180,5 +180,5 @@ class GraphAlgo(GraphAlgoInterface):
 
         plt.xlabel('x - axis')
         plt.ylabel('y - axis')
-        plt.title('My first graph!')
+        plt.title('Shai Sason Yehuda Aharon #1')
         plt.show()

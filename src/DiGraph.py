@@ -72,20 +72,4 @@ class DiGraph(GraphInterface):
         return self.outE.get(id1)
 
 
-if __name__ == '__main__':
-    d = DiGraph()
-    d.add_node(0)
-    d.add_node(1)
-    d.add_node(2)
-    d.add_node(3)
-    d.add_node(4)
-    d.add_node(5)
-    d.add_edge(0, 1, 3.5)
-    d.add_edge(0, 1, 3.5)
-    d.add_edge(0, 2, 4.5)
-    d.add_edge(0, 3, 5.5)
-    d.add_edge(0, 4, 6.5)
-    d.add_edge(0, 5, 7.5)
-    d.add_edge(3, 4, 1.7)
 
-#   print(d.outE.get(0))
