@@ -69,15 +69,15 @@ class MyTestCase(unittest.TestCase):
         a1 = g.remove_edge(1, 0)  # False
         a2 = g.remove_edge(0, 1)  # True
         c1 = g.add_edge(0, 1, 9)  # True
-        c2 = g.add_edge(0, 1, 10)  # True
+        c2 = g.add_edge(0, 1, 10)  # False
         print(g.all_out_edges_of_node(0))
         eSize = g.e_size()  # 1
         vSize = g.v_size()  # 2
         path1 = g_algo.shortest_path(0, 1)  # (9, [0,1])
         connected = g_algo.connected_components()  # [[0,1]]
-        mc1 = g.get_mc()  # 6
+        mc1 = g.get_mc()  # 5
         b1 = g.remove_node(1)  # True
-        mc2 = g.get_mc()  # 8
+        mc2 = g.get_mc()  # 6
         eSize2 = g.e_size()  # 0
         vSize2 = g.v_size()  # 1
         self.assertEqual(a1, False)
@@ -91,7 +91,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(path1, (9, [0, 1]))
         self.assertEqual(connected, [[1], [0]])
         self.assertEqual(mc1, 5)
-        self.assertEqual(mc2, 7)
+        self.assertEqual(mc2, 6)
 
     def test3(self):
         """ testing on a specific graph """

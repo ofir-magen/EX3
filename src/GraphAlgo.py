@@ -4,6 +4,7 @@ from typing import List
 import json
 import matplotlib.pyplot as plt
 import self as self
+import random
 
 from GraphAlgoInterface import GraphAlgoInterface
 from GraphInterface import GraphInterface
@@ -166,6 +167,18 @@ class GraphAlgo(GraphAlgoInterface):
         return theRealSCC
 
     def plot_graph(self) -> None:
+        isTherePOS = True
+        for key, val in self.graph.get_all_v().items():
+            if val is None:
+                isTherePOS = False
+            break
+        if not isTherePOS:
+            for key in self.graph.get_all_v().keys():
+                x = random.random() * self.graph.v_size() / 10
+                y = random.random() * self.graph.v_size() / 10
+                z = random.random() * self.graph.v_size() / 10
+                pos = x, y, z
+                self.graph.get_all_v()[key] = pos
         for src in self.graph.get_all_v().keys():
             for j in self.graph.all_out_edges_of_node(src).keys():
                 listX = []
@@ -180,5 +193,5 @@ class GraphAlgo(GraphAlgoInterface):
 
         plt.xlabel('x - axis')
         plt.ylabel('y - axis')
-        plt.title('Shai Sason Yehuda Aharon #1')
+        plt.title('Bye OOP :(')
         plt.show()
